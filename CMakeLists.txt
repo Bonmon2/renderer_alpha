@@ -17,4 +17,4 @@ add_executable(${PROJECT_NAME} main.cpp)
 include_directories(GLFW/include ${Vulkan_INCLUDE_DIRS})
 
 
-target_link_libraries(${PROJECT_NAME} ${glfw} ${Vulkan_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${glfw} ${Vulkan_LIBRARIES} OpenGL32)
