@@ -7,14 +7,18 @@ find_package(Vulkan REQUIRED)
 
 find_package(OpenGL REQUIRED)
 
+set( incDirs ${Vulkan_INCLUDE_DIRS} )
+
 if( UNIX )
     find_package(glfw3 3.3)
-    set( GLFW glfw) 
+    set( GLFW glfw)
+
 elseif( WIN32 )
-    set( GLFW${CMAKE_SOURCE_DIR}/GLFW/mingw/libglfw3.a )
+    set( GLFW ${CMAKE_SOURCE_DIR}/GLFW/mingw/libglfw3.a )
+    set( incDirs ${incDirs} GLFW/include)
 endif()
 
 add_executable(${PROJECT_NAME} main.cpp)
-include_directories( ${Vulkan_INCLUDE_DIRS})
+include_directories( ${incDirs})
 
 target_link_libraries(${PROJECT_NAME} ${GLFW} ${Vulkan_LIBRARIES} OpenGL::GL)
