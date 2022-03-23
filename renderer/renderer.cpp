@@ -1,0 +1,58 @@
+#include "renderer.h"
+
+Renderer::Renderer() {
+    createInstance();
+    debug = new Debug( instance );
+}
+
+Renderer::~Renderer() {
+    debug->detroy( instance );
+
+    vkDestroyInstance( instance, nullptr );
+}
+
+void Renderer::createInstance() {
+
+    VkApplicationInfo appInfo{};
+    appInfo.sType               = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    appInfo.pNext               = nullptr;
+    appInfo.pApplicationName    = "renderer alpha";
+    appInfo.pEngineName         = "no engine";
+    appInfo.engineVersion       = 1;
+    appInfo.apiVersion          = VK_API_VERSION_1_0;
+
+    VkInstanceCreateInfo createInfo{};
+    createInfo.sType                    = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+    createInfo.pNext                    = nullptr;
+    createInfo.pApplicationInfo         = &appInfo;
+    
+    if( enableValidationLayers ) {    
+        createInfo.enabledLayerCount        = validationLayers.size();
+        createInfo.ppEnabledLayerNames      = validationLayers.data();
+    } else {
+        createInfo.enabledLayerCount        = 0;
+        createInfo.ppEnabledLayerNames      = nullptr;
+    }
+
+    std::vector< const char* > extensions =  getRequiredExtensions();
+    createInfo.enabledExtensionCount    = extensions.size();
+    createInfo.ppEnabledExtensionNames  = extensions.data();
+
+    if( vkCreateInstance( &createInfo, nullptr, &instance ) != VK_SUCCESS ) {
+        throw std::runtime_error( "Failed to initialise vulkan" );
+    }
+}
+
+std::vector< const char* > Renderer::getRequiredExtensions() {
+    uint32_t glfwExtensionCount = 0;
+    const char** glfwExtensions;
+    glfwExtensions = glfwGetRequiredInstanceExtensions( &glfwExtensionCount );
+
+    std::vector< const char* > extensions( glfwExtensions, glfwExtensions + glfwExtensionCount );
+
+    if( enableValidationLayers ) {
+        extensions.push_back( VK_EXT_DEBUG_UTILS_EXTENSION_NAME );
+    }
+
+    return extensions;
+}

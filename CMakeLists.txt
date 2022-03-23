@@ -5,6 +5,8 @@ project( renderer_alpha)
 
 find_package(Vulkan REQUIRED)
 
+set( renderer renderer/renderer.cpp renderer/debug/debug.cpp)
+
 set( window window/window.cpp )
 
 set( incDirs ${Vulkan_INCLUDE_DIRS} )
@@ -16,9 +18,11 @@ if( UNIX )
 elseif( WIN32 )
     set( GLFW ${CMAKE_SOURCE_DIR}/GLFW/mingw/libglfw3.a )
     set( incDirs ${incDirs} GLFW/include )
+    
 endif()
+message(${incDirs})
 
-add_executable( ${PROJECT_NAME} main.cpp ${window})
+add_executable( ${PROJECT_NAME} main.cpp ${window} ${renderer} )
 include_directories( ${incDirs} )
 
 target_link_libraries( ${PROJECT_NAME} ${Vulkan_LIBRARIES} ${GLFW})
