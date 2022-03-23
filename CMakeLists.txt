@@ -5,7 +5,7 @@ project( renderer_alpha)
 
 find_package(Vulkan REQUIRED)
 
-find_package(OpenGL REQUIRED)
+set( window window/window.cpp )
 
 set( incDirs ${Vulkan_INCLUDE_DIRS} )
 
@@ -15,10 +15,10 @@ if( UNIX )
 
 elseif( WIN32 )
     set( GLFW ${CMAKE_SOURCE_DIR}/GLFW/mingw/libglfw3.a )
-    set( incDirs ${incDirs} GLFW/include)
+    set( incDirs ${incDirs} GLFW/include )
 endif()
 
-add_executable(${PROJECT_NAME} main.cpp)
-include_directories( ${incDirs})
+add_executable( ${PROJECT_NAME} main.cpp ${window})
+include_directories( ${incDirs} )
 
-target_link_libraries(${PROJECT_NAME} ${GLFW} ${Vulkan_LIBRARIES} OpenGL::GL)
+target_link_libraries( ${PROJECT_NAME} ${Vulkan_LIBRARIES} ${GLFW})

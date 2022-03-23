@@ -1,38 +1,27 @@
-//#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
+#include "window/window.h"
 
-int main(void)
+#define GLFW_INCLUDE_VULKAN
+
+uint32_t WIDTH = 800, HEIGHT = 600;
+
+class app {
+private:
+    Window* window;
+public:
+    void run() {
+        window = new Window( WIDTH, HEIGHT );
+
+        while( !window->shouldClose() ) {
+            window->poll();
+        }
+    }
+};
+
+int main()
 {
-    GLFWwindow* window;
+    app myApp;
 
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
+    myApp.run();
 
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
-
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
-
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
-        /* Poll for and process events */
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
     return 0;
 }
