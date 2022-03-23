@@ -5,16 +5,16 @@ project( renderer_alpha)
 
 find_package(Vulkan REQUIRED)
 
-
+find_package(OpenGL REQUIRED)
 
 if( UNIX )
     find_package(glfw3 3.3)
+    set( GLFW glfw) 
 elseif( WIN32 )
-    set( glfw ${CMAKE_SOURCE_DIR}/GLFW/mingw/libglfw3.a )
+    set( GLFW${CMAKE_SOURCE_DIR}/GLFW/mingw/libglfw3.a )
 endif()
 
 add_executable(${PROJECT_NAME} main.cpp)
-include_directories(GLFW/include ${Vulkan_INCLUDE_DIRS})
+include_directories( ${Vulkan_INCLUDE_DIRS})
 
-
-target_link_libraries(${PROJECT_NAME} ${glfw} ${Vulkan_LIBRARIES} OpenGL32)
+target_link_libraries(${PROJECT_NAME} ${GLFW} ${Vulkan_LIBRARIES} OpenGL::GL)
