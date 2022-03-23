@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.20)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ${FILE} -static-libgcc -static-libstdc++")
+project( renderer_alpha)
+
+find_package(Vulkan REQUIRED)
+
+
+
+if( UNIX )
+    find_package(glfw3 3.3)
+elseif( WIN32 )
+    set( glfw ${CMAKE_SOURCE_DIR}/GLFW/mingw/libglfw3.a )
+endif()
+
+add_executable(${PROJECT_NAME} main.cpp)
+include_directories(GLFW/include ${Vulkan_INCLUDE_DIRS})
+
+
+target_link_libraries(${PROJECT_NAME} ${glfw} ${Vulkan_LIBRARIES})
