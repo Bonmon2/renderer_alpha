@@ -10,7 +10,8 @@ set( incDirs ${Vulkan_INCLUDE_DIRS} )
 
 
 set( debugger renderer/debug/debug.cpp )
-set( renderer renderer/renderer.cpp ${debugger} )
+set( devices renderer/devices/devices.cpp )
+set( renderer renderer/renderer.cpp ${debugger} ${devices} )
 
 set( window window/window.cpp )
 

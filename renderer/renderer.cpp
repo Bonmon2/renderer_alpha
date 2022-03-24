@@ -6,11 +6,14 @@ Renderer::Renderer() {
     debug = new Debug();
     createInstance();
     debug->create( instance );
+
+    physicalDevice = new PhysicalDevice( instance );
+    logicalDevice = new LogicalDevice( instance, physicalDevice );
 }
 
 Renderer::~Renderer() {
+    logicalDevice->~LogicalDevice();
 
-    
     debug->detroy( instance );
 
     vkDestroyInstance( instance, nullptr );
