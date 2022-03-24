@@ -1,5 +1,7 @@
 #include "renderer.h"
 
+
+
 Renderer::Renderer() {
     createInstance();
     debug = new Debug( instance );

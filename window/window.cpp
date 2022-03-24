@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 
+#include <GLFW/glfw3.h>
 
 Window::Window( int width, int height ) {
     glfwInit();

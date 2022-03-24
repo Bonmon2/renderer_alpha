@@ -2,8 +2,6 @@
 #define RENDERER_H
 
 #include "debug/debug.h"
-
-#include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 
 #include <vector>
