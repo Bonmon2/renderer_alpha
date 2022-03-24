@@ -10,10 +10,13 @@ const bool enableValidationLayers = true;
 #include <vulkan/vulkan.h>
 
 class Debug {
+public:
+    VkDebugUtilsMessengerCreateInfoEXT createInfo;
 private:
     VkDebugUtilsMessengerEXT debugMessenger;
 public:
-    Debug( VkInstance instance );
+    Debug(  );
+    void create( VkInstance instance );
     void detroy( VkInstance instance );
 };
 

@@ -3,11 +3,14 @@
 
 
 Renderer::Renderer() {
+    debug = new Debug();
     createInstance();
-    debug = new Debug( instance );
+    debug->create( instance );
 }
 
 Renderer::~Renderer() {
+
+    
     debug->detroy( instance );
 
     vkDestroyInstance( instance, nullptr );
@@ -25,20 +28,22 @@ void Renderer::createInstance() {
 
     VkInstanceCreateInfo createInfo{};
     createInfo.sType                    = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-    createInfo.pNext                    = nullptr;
     createInfo.pApplicationInfo         = &appInfo;
+
+    std::vector< const char* > extensions =  getRequiredExtensions();
+    createInfo.enabledExtensionCount    = extensions.size();
+    createInfo.ppEnabledExtensionNames  = extensions.data();
     
     if( enableValidationLayers ) {    
         createInfo.enabledLayerCount        = validationLayers.size();
         createInfo.ppEnabledLayerNames      = validationLayers.data();
+
+        createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debug->createInfo;
     } else {
         createInfo.enabledLayerCount        = 0;
         createInfo.ppEnabledLayerNames      = nullptr;
     }
 
-    std::vector< const char* > extensions =  getRequiredExtensions();
-    createInfo.enabledExtensionCount    = extensions.size();
-    createInfo.ppEnabledExtensionNames  = extensions.data();
 
     if( vkCreateInstance( &createInfo, nullptr, &instance ) != VK_SUCCESS ) {
         throw std::runtime_error( "Failed to initialise vulkan" );
