@@ -21,6 +21,12 @@ struct QueueFamilyIndices {
     }
 };
 
+struct SwapChainSupportDetails {
+    VkSurfaceCapabilitiesKHR capabilities;
+    std::vector< VkSurfaceFormatKHR > formats;
+    std::vector< VkPresentModeKHR > presentModes;
+};
+
 class Device{
 protected:
     QueueFamilyIndices findQueueFamilies( VkPhysicalDevice device, VkSurfaceKHR surface );
@@ -30,14 +36,19 @@ class PhysicalDevice: Device{
 
 public:
     VkPhysicalDevice physicalDevice;
+
 private:
     uint32_t deviceCount;
+
 public:
     PhysicalDevice( VkInstance instance, VkSurfaceKHR surface );
 
 private:
-    bool isSuitable( VkPhysicalDevice device, VkSurfaceKHR surface );
+    bool isSuitable( VkPhysicalDevice physicalDevice, VkSurfaceKHR surface );
+    bool checkExtensionSupport( VkPhysicalDevice physicalDevice );
+    SwapChainSupportDetails querySwapChainSupport( VkPhysicalDevice physicalDevice, VkSurfaceKHR surface );
 };
+
 
 class LogicalDevice: Device {
 private:

@@ -4,17 +4,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ${FILE} -static-libgcc -static-libstd
 
 project( renderer_alpha)
 
-find_package(Vulkan REQUIRED)
-
-set( incDirs ${Vulkan_INCLUDE_DIRS} )
-
 
 set( debugger renderer/debug/debug.cpp )
 set( devices renderer/devices/devices.cpp )
-set( renderer renderer/renderer.cpp ${debugger} ${devices} )
+set( swapChain renderer/swapChain/swapChain.cpp )
+
+set( renderer renderer/renderer.cpp ${debugger} ${devices} ${swapChain} )
 
 set( window window/window.cpp )
-
 
 
 
