@@ -11,7 +11,7 @@ public:
     void run() {
         window = new Window( WIDTH, HEIGHT );
 
-        renderer = new Renderer();
+        renderer = new Renderer( window );
 
 
         while( !window->shouldClose() ) {

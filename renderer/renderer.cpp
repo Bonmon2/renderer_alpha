@@ -2,13 +2,17 @@
 
 
 
-Renderer::Renderer() {
+Renderer::Renderer( Window* window ) {
     debug = new Debug();
     createInstance();
     debug->create( instance );
 
-    physicalDevice = new PhysicalDevice( instance );
-    logicalDevice = new LogicalDevice( instance, physicalDevice );
+    createSurface( window );
+
+    physicalDevice = new PhysicalDevice( instance, surface );
+    logicalDevice = new LogicalDevice( instance, physicalDevice, surface );
+
+    
 }
 
 Renderer::~Renderer() {
@@ -16,6 +20,7 @@ Renderer::~Renderer() {
 
     debug->detroy( instance );
 
+    vkDestroySurfaceKHR( instance, surface, nullptr );
     vkDestroyInstance( instance, nullptr );
 }
 
@@ -65,4 +70,10 @@ std::vector< const char* > Renderer::getRequiredExtensions() {
     }
 
     return extensions;
+}
+
+void Renderer::createSurface( Window* window ) {
+    if( glfwCreateWindowSurface( instance, window->window, nullptr, &surface ) != VK_SUCCESS ) {
+        throw std::runtime_error( "failed to create window surface" );
+    }
 }
